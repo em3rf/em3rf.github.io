@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-M3RF | ECCV 2026</title>
+	<link rel="icon" type="image/png" href="./images/em3rf_logo1.png">
+    
+    <!-- Google Fonts: Quicksand (friendly/rounded headings) and Inter (clean professional body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Quicksand:wght@600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #f4f8fb; /* Very soft airy blue/gray */
+            --surface-color: #ffffff;
+            --text-primary: #334155; /* Slate 700 */
+            --text-secondary: #64748b; /* Slate 500 */
+            --accent-main: #8b5cf6; /* Soft Violet */
+            --accent-sec: #0ea5e9; /* Sky Blue */
+            --gradient-soft: linear-gradient(135deg, var(--accent-sec) 0%, var(--accent-main) 100%);
+            --shadow-soft: 0 10px 25px rgba(14, 165, 233, 0.08);
+            --border-radius: 20px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.65;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Subtle Background Gradient instead of blobs */
+        .bg-mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: 
+                radial-gradient(at 0% 0%, rgba(14, 165, 233, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.08) 0px, transparent 50%);
+            z-index: -1;
+        }
+
+        /* Navigation Menu - Left aligned brand, Right aligned links */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 5%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.03);
+        }
+        
+        .nav-brand {
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: var(--accent-main);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            font-family: 'Quicksand', sans-serif;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-sec);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+
+        /* Header / Hero */
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        /* Institutional Logos - Original Colors */
+        .logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3.5rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+        .logos img {
+            height: 55px;
+            object-fit: contain;
+            transition: transform 0.2s ease;
+        }
+        .logos img:hover {
+            transform: translateY(-3px);
+        }
+
+        .conference-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: var(--surface-color);
+            padding: 0.5rem 1.5rem;
+            border-radius: 9999px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.04);
+            margin-bottom: 1.5rem;
+        }
+        
+        .eccv-logo-inline {
+            height: 20px;
+            width: auto;
+        }
+
+        h1 {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.25;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            letter-spacing: -1px;
+        }
+        h1 span {
+            background: var(--gradient-soft);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Authors */
+        .authors {
+            font-size: 1.15rem;
+            margin: 1.5rem 0 0.5rem 0;
+            font-weight: 500;
+        }
+        .authors a {
+            color: var(--text-primary);
+            text-decoration: none;
+            margin: 0 0.4rem;
+            transition: color 0.2s ease;
+        }
+        .authors a:hover { color: var(--accent-sec); }
+        
+        .affiliations {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 2.5rem;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        /* Soft Pill Buttons */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 2rem;
+            border-radius: 9999px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .btn-primary {
+            background: var(--gradient-soft);
+            color: #fff;
+            box-shadow: 0 6px 15px rgba(14, 165, 233, 0.2);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(14, 165, 233, 0.3);
+        }
+        .btn-outline {
+            background: var(--surface-color);
+            color: var(--text-primary);
+            border: 2px solid #e2e8f0;
+        }
+        .btn-outline:hover {
+            border-color: var(--accent-sec);
+            color: var(--accent-sec);
+            transform: translateY(-2px);
+        }
+
+        /* Sections */
+        section {
+            background: var(--surface-color);
+            border-radius: var(--border-radius);
+            padding: 3.5rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+        h2 {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        h2::before {
+            content: "";
+            display: block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--gradient-soft);
+        }
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+        
+        /* Placeholder for Images */
+        .img-placeholder {
+            width: 100%;
+            height: 380px;
+            background: #f8fafc;
+            border: 2px dashed #cbd5e1;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background 0.2s ease;
+        }
+        .img-placeholder:hover {
+            background: #f1f5f9;
+        }
+
+        /* BibTeX Area */
+        .bib-container {
+            position: relative;
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+            margin-top: 1rem;
+        }
+        .code-block {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--surface-color);
+            border: 1px solid #cbd5e1;
+            color: var(--text-primary);
+            padding: 0.4rem 1.2rem;
+            border-radius: 9999px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .copy-btn:hover {
+            background: var(--accent-sec);
+            color: #fff;
+            border-color: var(--accent-sec);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            margin-top: 1rem;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+        }
+		
+		/* Tabs System */
+        .tabs-header {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            margin-top: 1rem;
+        }
+        .tab-btn {
+            background: var(--bg-color);
+            border: 2px solid #e2e8f0;
+            color: var(--text-secondary);
+            padding: 0.6rem 1.5rem;
+            border-radius: 9999px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .tab-btn:hover {
+            border-color: var(--accent-main);
+            color: var(--accent-main);
+        }
+        .tab-btn.active {
+            background: var(--gradient-soft);
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25);
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Dynamic Centered GIF Layouts */
+        .gif-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; /* This perfectly centers the bottom row! */
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .gif-wrapper {
+            background: transparent;
+            border: none;
+            overflow: hidden;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+        }
+        
+        /* Make them lift up playfully when hovering */
+        .gif-wrapper:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.2);
+        }
+        
+        .gif-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* 3 per row for RePAIR (centers the remaining 2 on bottom) */
+        .grid-many .gif-wrapper {
+            width: calc(33.333% - 1rem);
+            min-width: 250px;
+            height: 300px; /* Taller */
+        }
+
+        /* 2 per row for the other datasets */
+        .grid-few .gif-wrapper {
+            width: calc(50% - 0.75rem);
+            min-width: 300px;
+            height: 380px; /* Much taller */
+        }
+
+        /* Lightbox Modal Styles */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 9999; 
+            left: 0; 
+            top: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(15, 23, 42, 0.85); 
+            backdrop-filter: blur(8px);
+        }
+        
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 85vh;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            animation: zoomIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        @keyframes zoomIn {
+            from {transform: scale(0.8); opacity: 0;}
+            to {transform: scale(1); opacity: 1;}
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            color: #fff;
+            font-size: 45px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        
+        .close-modal:hover {
+            color: var(--accent-sec);
+        }
+		/* Circled Letters for Captions */
+        .encircle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.6em;
+            height: 1.6em;
+            border-radius: 50%;
+            background: var(--accent-main);
+            color: #fff;
+            font-size: 0.8em;
+            font-weight: 800;
+            margin: 0 0.3em;
+            vertical-align: middle;
+            box-shadow: 0 2px 5px rgba(139, 92, 246, 0.3);
+        }
+        
+        .fig-caption {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-top: 1rem;
+            text-align: justify;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Soft ambient background -->
+    <div class="bg-mesh"></div>
+
+    <!-- Navigation Area: Left Aligned Brand, Right Aligned Links -->
+    <nav>
+        <a href="#" class="nav-brand" style="display: flex; align-items: center; gap: 12px;">
+            <img src="./images/em3rf_logo1.png" alt="E-M3RF Logo" style="height: 40px; width: auto; border-radius: 6px; object-fit: cover;">
+            E-M3RF
+        </a>
+        <div class="nav-links">
+            <a href="#abstract">Abstract</a>
+            <a href="#method">Method</a>
+            <!--<a href="#results">Results</a>-->
+            <a href="#bibtex">BibTeX</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header>
+            <!-- Institutional Logos -->
+            <div class="logos">
+                <img src="./Images/iit_logo.png" alt="IIT Logo">
+                <img src="./Images/unige_logo.png" alt="University of Genoa Logo">
+                <img src="./Images/durham_logo.png" alt="Durham University Logo">
+				<img src="./Images/repair_logo.png" alt="Durham University Logo">
+            </div>
+
+            <!-- Conference Badge with ECCV Logo -->
+            <div class="conference-badge">✨ ECCV 2026</div>
+            
+            <h1><span>E-M3RF:</span> An Equivariant Multimodal<br>3D Re-assembly Framework</h1>
+            
+            <div class="authors">
+                <a href="#">Adeela Islam</a><sup>1,2</sup>
+                <a href="#">Stefano Fiorini</a><sup>1</sup>
+                <a href="#">Manuel Lecha</a><sup>1,2</sup>
+                <a href="#">Theodore Tsesmelis</a><sup>1</sup><br>
+                <a href="#">Stuart James</a><sup>3</sup>
+                <a href="#">Pietro Morerio</a><sup>1</sup>
+                <a href="#">Alessio Del Bue</a><sup>1</sup>
+            </div>
+
+            <div class="affiliations">
+                <span><sup>1</sup> Istituto Italiano di Tecnologia, Genoa, Italy</span>
+                <span><sup>2</sup> University of Genoa, Genoa, Italy</span>
+                <span><sup>3</sup> Durham University, Durham, UK</span>
+            </div>
+
+            <div class="btn-group">
+                <a href="https://arxiv.org/abs/2511.21422" class="btn btn-primary">📄 Paper</a>
+                <a href="https://github.com/adeislam/e-m3rf" class="btn btn-outline">💻 Code</a>
+                <a href="#bibtex" class="btn btn-outline">📊 BibTeX</a>
+            </div>
+        </header>
+
+        <!-- Abstract Section -->
+        <section id="abstract">
+		<h2>Abstract</h2>
+		
+		<!-- Added float, specific width, and margins to the style -->
+		<img src="./images/teaser.png" alt="Teaser animation showing E-M3RF 3D re-assembly process" style="float: left; width: 350px; max-width: 100%; margin-right: 20px; margin-bottom: 15px; border-radius: 8px;">
+		
+		<p>
+			Assembling complex 3D objects from multimodal inputs remains a significant challenge in computer vision. We introduce <strong>E-M3RF</strong>, an Equivariant Multimodal 3D Re-assembly Framework that leverages geometric equivariance to robustly align and assemble fragmented 3D parts guided by textual and visual prompts.
+		</p>
+		<p>
+			By inherently understanding the SE(3) equivariant properties of spatial components, our framework drastically reduces the search space for assembly configurations. E-M3RF establishes a new state-of-the-art on multiple 3D re-assembly benchmarks, proving highly resilient to noise and partial observations.
+		</p>
+		
+		<!-- Adding a "clearfix" ensures the section expands to fit the floating image even if the text is short -->
+		<div style="clear: both;"></div>
+	</section>
+
+        <!-- Method Section -->
+        <section id="method">
+            <h2>Method</h2>
+            
+            <div class="img-placeholder" style="border: none; background: transparent; height: auto;">
+                <img src="./images/method.png" alt="E-M3RF Pipeline Architecture" style="width: 100%; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+            </div>
+            
+            <div class="fig-caption">
+                <strong>E-M3RF's pipeline.</strong> 
+                <span class="encircle">A</span> A set of textured fragments (left) loaded as colored point clouds (w/ per-point RGB). 
+                Two transformer encoders extract <span class="encircle">B</span> <strong>fracture-aware geometric features</strong>, which are geometrically equivariant, since they are processed by an <strong>SO(3)-equivariant Transformer</strong> so representations transform consistently under motions (rotation/translation) and <span class="encircle">C</span> <strong>color features</strong> through a Transformer over per-point colors which extracts dense color descriptors. 
+                The streams are concatenated into <span class="encircle">D</span> <strong>local point-cloud features</strong> (xyz/rgb/normals tokens); the geometry stream is guided by a fracture-segmentation head during pretraining. 
+                Using these fused features, we perform <span class="encircle">E</span> <strong>flow matching on SE(3)</strong>: a time-dependent vector field &psi;<sub>t</sub> transports fragment poses from a noisy initialization x<sub>1</sub> through intermediate states to the assembled configuration x<sub>0</sub>, yielding per-fragment transforms (R,t).
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section id="results">
+            <h2>Results</h2>
+            <p>
+                E-M3RF vastly outperforms existing baselines across multiple challenging metrics. Below are the qualitative 3D re-assembly results across our evaluated synthetic and real-world cultural heritage datasets. Click on any animation to enlarge.
+            </p>
+
+            <div class="tabs-header">
+                <button class="tab-btn active" onclick="openTab(event, 'tab-repair')">RePAIR</button>
+                <button class="tab-btn" onclick="openTab(event, 'tab-presious')">Presious</button>
+                <button class="tab-btn" onclick="openTab(event, 'tab-breaking')">Breaking Bad</button>
+                <button class="tab-btn" onclick="openTab(event, 'tab-fantastic')">Fantastic Breaks</button>
+            </div>
+
+            <div id="tab-repair" class="tab-content active">
+                <div class="gif-container grid-many">
+                    <div class="gif-wrapper">
+                        <img src="./images/animations/repair/puzzle_0000020_RP_group_19.gif" alt="RePAIR Result" onclick="openModal(this.src)">
+                    </div>
+                    <div class="gif-wrapper">
+                        <img src="./images/animations/repair/puzzle_0000030_RP_group_29.gif" alt="RePAIR Result" onclick="openModal(this.src)">
+                    </div>
+                    <div class="gif-wrapper">
+                        <img src="./images/animations/repair/puzzle_0000032_RP_group_31.gif" alt="RePAIR Result" onclick="openModal(this.src)">
+                    </div>
+                    <div class="gif-wrapper">
+                        <img src="./images/animations/repair/puzzle_0000043_RP_group_42.gif" alt="RePAIR Result" onclick="openModal(this.src)">
+                    </div>
+                    <div class="gif-wrapper">
+                        <img src="./images/animations/repair/puzzle_0000111_RP_group_83.gif" alt="RePAIR Result" onclick="openModal(this.src)">
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-presious" class="tab-content">
+                <div class="gif-container grid-few">
+                    <div class="gif-wrapper">
+                        <img src="./images/animations/presious/RPobj_g1_o0001.gif" alt="Presious Result" onclick="openModal(this.src)">
+                    </div>
+                    <div class="gif-wrapper">
+                        <img src="./images/animations/presious/RPobj_g6_o0006.gif" alt="Presious Result" onclick="openModal(this.src)">
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-breaking" class="tab-content">
+                <div class="gif-container grid-few">
+                    <div class="gif-wrapper">
+                        <img src="./images/animations/breaking_bad/mode_4.gif" alt="Breaking Bad Result" onclick="openModal(this.src)">
+                    </div>
+                    <div class="gif-wrapper">
+                        <img src="./images/animations/breaking_bad/mode_14.gif" alt="Breaking Bad Result" onclick="openModal(this.src)">
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-fantastic" class="tab-content">
+                <div class="gif-container grid-few">
+                    <div class="gif-wrapper">
+                        <img src="./images/animations/fantastic_breaks/00016.gif" alt="Fantastic Breaks Result" onclick="openModal(this.src)">
+                    </div>
+                    <div class="gif-wrapper">
+                        <img src="./images/animations/fantastic_breaks/00044.gif" alt="Fantastic Breaks Result" onclick="openModal(this.src)">
+                    </div>
+                </div>
+            </div>
+            
+            <div id="imageModal" class="modal" onclick="closeModal()">
+                <span class="close-modal">&times;</span>
+                <img class="modal-content" id="modalImg">
+            </div>
+        </section>
+		
+
+        <!-- BibTeX Section -->
+        <section id="bibtex">
+            <h2>BibTeX</h2>
+            <p>If you find our work helpful, please consider citing it:</p>
+            
+            <div class="bib-container">
+                <button class="copy-btn" onclick="copyBib()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    Copy
+                </button>
+                <div class="code-block" id="bibtex-content">@inproceedings{islam2026em3rf,
+  title     = {E-M3RF: An Equivariant Multimodal 3D Re-assembly Framework},
+  author    = {Islam, Adeela and Fiorini, Stefano and Lecha, Manuel and Tsesmelis, Theodore and James, Stuart and Morerio, Pietro and Del Bue, Alessio},
+  booktitle = {Proceedings of the European Conference on Computer Vision (ECCV)},
+  year      = {2026}
+}</div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>E-M3RF © 2026. Accepted at ECCV 2026.</p>
+        <div class="footer-logo">
+            <img src="./images/eccv_logo.png" alt="ECCV Logo" style="height: 20px;">
+            <span>ECCV 2026</span>
+        </div>
+    </footer>
+
+    <!-- Script for the Copy to Clipboard functionality -->
+    <script>
+        function copyBib() {
+            const bibText = document.getElementById('bibtex-content').innerText;
+            navigator.clipboard.writeText(bibText).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Copied!`;
+                btn.style.background = 'var(--accent-sec)';
+                btn.style.color = '#fff';
+                btn.style.borderColor = 'var(--accent-sec)';
+                
+                setTimeout(() => {
+                    btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy`;
+                    btn.style.background = 'var(--surface-color)';
+                    btn.style.color = 'var(--text-primary)';
+                    btn.style.borderColor = '#cbd5e1';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy!', err);
+            });
+        }
+	
+        function openTab(evt, tabName) {
+            // Hide all tab contents
+            const tabContents = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove("active");
+            }
+            
+            // Remove active class from all buttons
+            const tabBtns = document.getElementsByClassName("tab-btn");
+            for (let i = 0; i < tabBtns.length; i++) {
+                tabBtns[i].classList.remove("active");
+            }
+            
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+		
+		// Lightbox Modal Functions
+        function openModal(imageSrc) {
+            const modal = document.getElementById("imageModal");
+            const modalImg = document.getElementById("modalImg");
+            modal.style.display = "flex"; // Using flex to center it vertically and horizontally
+            modal.style.alignItems = "center";
+            modal.style.justifyContent = "center";
+            modalImg.src = imageSrc;
+        }
+
+        function closeModal() {
+            const modal = document.getElementById("imageModal");
+            modal.style.display = "none";
+        }
+    </script>
+</body>
+</html>
