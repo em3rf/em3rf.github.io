@@ -404,12 +404,15 @@
             box-shadow: 0 8px 25px rgba(139, 92, 246, 0.2);
         }
         
-        .gif-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
+        /* Update this block in your <style> section */
+	.gif-wrapper img, 
+	.gif-wrapper video {
+	    width: 100%;
+	    height: 100%;
+	    object-fit: cover;
+	    display: block;
+	    pointer-events: none; /* Add this so the click registers on the wrapper */
+	}
 
         /* 3 per row for RePAIR (centers the remaining 2 on bottom) */
         .grid-many .gif-wrapper {
@@ -605,61 +608,61 @@
 
             <div id="tab-repair" class="tab-content active">
                 <div class="gif-container grid-many">
-                    <div class="gif-wrapper">
-                        <img src="./images/animations/repair/puzzle_0000020_RP_group_19.gif" alt="RePAIR Result" onclick="openModal(this.src)">
+                    <div class="gif-wrapper" onclick="openModal('./images/animations/repair/puzzle_0000020_RP_group_19.mp4')">
+                        <video src="./images/animations/repair/puzzle_0000020_RP_group_19.mp4" autoplay loop muted playsinline></video>
                     </div>
-                    <div class="gif-wrapper">
-                        <img src="./images/animations/repair/puzzle_0000030_RP_group_29.gif" alt="RePAIR Result" onclick="openModal(this.src)">
+                    <div class="gif-wrapper" onclick="openModal('./images/animations/repair/puzzle_0000030_RP_group_29.mp4')">
+                        <video src="./images/animations/repair/puzzle_0000030_RP_group_29.mp4" autoplay loop muted playsinline></video>
                     </div>
-                    <div class="gif-wrapper">
-                        <img src="./images/animations/repair/puzzle_0000032_RP_group_31.gif" alt="RePAIR Result" onclick="openModal(this.src)">
+                    <div class="gif-wrapper" onclick="openModal('./images/animations/repair/puzzle_0000032_RP_group_31.mp4')">
+                        <video src="./images/animations/repair/puzzle_0000032_RP_group_31.mp4" autoplay loop muted playsinline></video>
                     </div>
-                    <div class="gif-wrapper">
-                        <img src="./images/animations/repair/puzzle_0000043_RP_group_42.gif" alt="RePAIR Result" onclick="openModal(this.src)">
+                    <div class="gif-wrapper" onclick="openModal('./images/animations/repair/puzzle_0000043_RP_group_42.mp4')">
+                        <video src="./images/animations/repair/puzzle_0000043_RP_group_42.mp4" autoplay loop muted playsinline></video>
                     </div>
-                    <div class="gif-wrapper">
-                        <img src="./images/animations/repair/puzzle_0000111_RP_group_83.gif" alt="RePAIR Result" onclick="openModal(this.src)">
+                    <div class="gif-wrapper" onclick="openModal('./images/animations/repair/puzzle_0000111_RP_group_83.mp4')">
+                        <video src="./images/animations/repair/puzzle_0000111_RP_group_83.mp4" autoplay loop muted playsinline></video>
                     </div>
                 </div>
             </div>
 
             <div id="tab-presious" class="tab-content">
                 <div class="gif-container grid-few">
-                    <div class="gif-wrapper">
-                        <img src="./images/animations/presious/RPobj_g1_o0001.gif" alt="Presious Result" onclick="openModal(this.src)">
+                    <div class="gif-wrapper" onclick="openModal('./images/animations/presious/RPobj_g1_o0001.mp4')">
+                        <video src="./images/animations/presious/RPobj_g1_o0001.mp4" autoplay loop muted playsinline></video>
                     </div>
-                    <div class="gif-wrapper">
-                        <img src="./images/animations/presious/RPobj_g6_o0006.gif" alt="Presious Result" onclick="openModal(this.src)">
+                    <div class="gif-wrapper" onclick="openModal('./images/animations/presious/RPobj_g6_o0006.mp4')">
+                        <video src="./images/animations/presious/RPobj_g6_o0006.mp4" autoplay loop muted playsinline></video>
                     </div>
                 </div>
             </div>
 
             <div id="tab-breaking" class="tab-content">
                 <div class="gif-container grid-few">
-                    <div class="gif-wrapper">
-                        <img src="./images/animations/breaking_bad/mode_4.gif" alt="Breaking Bad Result" onclick="openModal(this.src)">
+                    <div class="gif-wrapper" onclick="openModal('./images/animations/breaking_bad/mode_4.mp4')">
+                        <video src="./images/animations/breaking_bad/mode_4.mp4" autoplay loop muted playsinline></video>
                     </div>
-                    <div class="gif-wrapper">
-                        <img src="./images/animations/breaking_bad/mode_14.gif" alt="Breaking Bad Result" onclick="openModal(this.src)">
+                    <div class="gif-wrapper" onclick="openModal('./images/animations/breaking_bad/mode_14.mp4')">
+                        <video src="./images/animations/breaking_bad/mode_14.mp4" autoplay loop muted playsinline></video>
                     </div>
                 </div>
             </div>
 
             <div id="tab-fantastic" class="tab-content">
                 <div class="gif-container grid-few">
-                    <div class="gif-wrapper">
-                        <img src="./images/animations/fantastic_breaks/00016.gif" alt="Fantastic Breaks Result" onclick="openModal(this.src)">
+                    <div class="gif-wrapper" onclick="openModal('./images/animations/fantastic_breaks/00016.mp4')">
+                        <video src="./images/animations/fantastic_breaks/00016.mp4" autoplay loop muted playsinline></video>
                     </div>
-                    <div class="gif-wrapper">
-                        <img src="./images/animations/fantastic_breaks/00044.gif" alt="Fantastic Breaks Result" onclick="openModal(this.src)">
+                    <div class="gif-wrapper" onclick="openModal('./images/animations/fantastic_breaks/00044.mp4')">
+                        <video src="./images/animations/fantastic_breaks/00044.mp4" autoplay loop muted playsinline></video>
                     </div>
                 </div>
             </div>
             
             <div id="imageModal" class="modal" onclick="closeModal()">
-                <span class="close-modal">&times;</span>
-                <img class="modal-content" id="modalImg">
-            </div>
+			    <span class="close-modal">&times;</span>
+			    <video class="modal-content" id="modalVideo" autoplay loop muted playsinline controls></video>
+			</div>
         </section>
 		
 
@@ -732,19 +735,29 @@
         }
 		
 		// Lightbox Modal Functions
-        function openModal(imageSrc) {
-            const modal = document.getElementById("imageModal");
-            const modalImg = document.getElementById("modalImg");
-            modal.style.display = "flex"; // Using flex to center it vertically and horizontally
-            modal.style.alignItems = "center";
-            modal.style.justifyContent = "center";
-            modalImg.src = imageSrc;
-        }
-
-        function closeModal() {
-            const modal = document.getElementById("imageModal");
-            modal.style.display = "none";
-        }
+		function openModal(mediaSrc) {
+		    const modal = document.getElementById("imageModal");
+		    const modalVideo = document.getElementById("modalVideo");
+		    
+		    modal.style.display = "flex"; 
+		    modal.style.alignItems = "center";
+		    modal.style.justifyContent = "center";
+		    
+		    // Load the video and play it
+		    modalVideo.src = mediaSrc;
+		    modalVideo.play();
+		}
+		
+		function closeModal() {
+		    const modal = document.getElementById("imageModal");
+		    const modalVideo = document.getElementById("modalVideo");
+		    
+		    modal.style.display = "none";
+		    
+		    // Pause the video and clear the source so it resets
+		    modalVideo.pause();
+		    modalVideo.src = "";
+}
     </script>
 </body>
 </html>
