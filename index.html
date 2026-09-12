@@ -499,23 +499,29 @@
             border: 1px solid #e2e8f0;
         }
 
-		/* --- TEMPORARY RECORDING MODE --- */
-        .fullscreen-recording {
+		/* --- TEMPORARY POPUP RECORDING MODE --- */
+        .popup-recording {
             position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 100vw !important;
-            height: 100vh !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            
+            /* Keeps the exact same width as your website container */
+            width: 90% !important;
+            max-width: 936px !important; 
+            max-height: 90vh !important;
+            
             z-index: 99999 !important;
-            background-color: var(--bg-color) !important;
             margin: 0 !important;
-            padding: 3rem 5% !important;
-            border-radius: 0 !important;
             overflow-y: auto !important;
+            
+            /* The Magic Trick: Creates a dark blurred backdrop and a nice drop shadow */
+            box-shadow: 0 0 0 100vmax rgba(15, 23, 42, 0.85), 0 20px 60px rgba(0,0,0,0.4) !important;
         }
-        /* Hide the scrollbar for an even cleaner video */
-        .fullscreen-recording::-webkit-scrollbar {
-            display: none;
+        
+        /* Hides the scrollbar for a seamless video recording */
+        .popup-recording::-webkit-scrollbar {
+            display: none; 
         }
     </style>
 </head>
@@ -612,7 +618,7 @@
 
         <!-- Results Section -->
         <section id="results">
-            <h2 ondblclick="document.getElementById('results').classList.toggle('fullscreen-recording')" style="cursor: pointer;" title="Double-click to expand!">Results</h2>
+			<h2 ondblclick="document.getElementById('results').classList.toggle('popup-recording')" style="cursor: pointer;" title="Double-click to pop up!">Results</h2>
             <p>
                 E-M3RF vastly outperforms existing baselines across multiple challenging metrics. Below are the qualitative 3D re-assembly results across our evaluated synthetic and real-world cultural heritage datasets. Click on any animation to enlarge.
             </p>
