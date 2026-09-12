@@ -710,7 +710,20 @@
     </footer>
 
     <!-- Script for the Copy to Clipboard functionality -->
+    <!-- Script for the Interactive Elements -->
     <script>
+        // 1. Pause all hidden videos as soon as the page loads
+        document.addEventListener("DOMContentLoaded", function() {
+            const tabContents = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabContents.length; i++) {
+                if (!tabContents[i].classList.contains("active")) {
+                    const videos = tabContents[i].querySelectorAll("video");
+                    videos.forEach(v => v.pause());
+                }
+            }
+        });
+
+        // 2. BibTeX Copy Function
         function copyBib() {
             const bibText = document.getElementById('bibtex-content').innerText;
             navigator.clipboard.writeText(bibText).then(() => {
@@ -730,12 +743,20 @@
                 console.error('Failed to copy!', err);
             });
         }
-	
+    
+        // 3. Tab Switching Function (Updated to control video playback)
         function openTab(evt, tabName) {
-            // Hide all tab contents
+            // Hide all tab contents and PAUSE their videos
             const tabContents = document.getElementsByClassName("tab-content");
             for (let i = 0; i < tabContents.length; i++) {
                 tabContents[i].classList.remove("active");
+                
+                // Pause all videos in the old tab and rewind them to the beginning
+                const videos = tabContents[i].querySelectorAll("video");
+                videos.forEach(v => {
+                    v.pause();
+                    v.currentTime = 0; // Rewind to start
+                });
             }
             
             // Remove active class from all buttons
@@ -744,35 +765,40 @@
                 tabBtns[i].classList.remove("active");
             }
             
-            // Show the current tab, and add an "active" class to the button that opened the tab
-            document.getElementById(tabName).classList.add("active");
+            // Show the current tab, and add an "active" class to the button
+            const activeTab = document.getElementById(tabName);
+            activeTab.classList.add("active");
             evt.currentTarget.classList.add("active");
+
+            // PLAY the videos inside the newly opened tab
+            const activeVideos = activeTab.querySelectorAll("video");
+            activeVideos.forEach(v => v.play());
         }
-		
-		// Lightbox Modal Functions
-		function openModal(mediaSrc) {
-		    const modal = document.getElementById("imageModal");
-		    const modalVideo = document.getElementById("modalVideo");
-		    
-		    modal.style.display = "flex"; 
-		    modal.style.alignItems = "center";
-		    modal.style.justifyContent = "center";
-		    
-		    // Load the video and play it
-		    modalVideo.src = mediaSrc;
-		    modalVideo.play();
-		}
-		
-		function closeModal() {
-		    const modal = document.getElementById("imageModal");
-		    const modalVideo = document.getElementById("modalVideo");
-		    
-		    modal.style.display = "none";
-		    
-		    // Pause the video and clear the source so it resets
-		    modalVideo.pause();
-		    modalVideo.src = "";
-}
+        
+        // 4. Lightbox Modal Functions
+        function openModal(mediaSrc) {
+            const modal = document.getElementById("imageModal");
+            const modalVideo = document.getElementById("modalVideo");
+            
+            modal.style.display = "flex"; 
+            modal.style.alignItems = "center";
+            modal.style.justifyContent = "center";
+            
+            // Load the video and play it
+            modalVideo.src = mediaSrc;
+            modalVideo.play();
+        }
+        
+        function closeModal() {
+            const modal = document.getElementById("imageModal");
+            const modalVideo = document.getElementById("modalVideo");
+            
+            modal.style.display = "none";
+            
+            // Pause the modal video and clear the source so it resets
+            modalVideo.pause();
+            modalVideo.src = "";
+        }
     </script>
 </body>
 </html>
